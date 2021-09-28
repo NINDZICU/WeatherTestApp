@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Weather Test App</string>
+
+    <string name="time">Time</string>
+    <string name="temp">Temp</string>
+    <string name="chance_of_rain">Chance of Rain</string>
+    <string name="wind">Wind (mph)</string>
+    <string name="humidity">Humidity</string>
+    <string name="degrees">%d°</string>
+    <string name="percent_value">%d%%</string>
+
+    <string name="enter_city">Enter city name</string>
+
+    <string name="empty_city">City not found</string>
+    <string name="error_occurred">Error has occurred</string>
+</resources>

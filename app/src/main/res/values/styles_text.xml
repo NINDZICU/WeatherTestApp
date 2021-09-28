@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="Text.H1">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+    </style>
+
+    <style name="Text.H1.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.H2">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+    </style>
+
+    <style name="Text.H3">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
+
+    <style name="Text.H3.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+</resources>

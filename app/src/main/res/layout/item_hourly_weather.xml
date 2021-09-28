@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_0_25">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/Text.H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/temp"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12PM" />
+
+    <TextView
+        android:id="@+id/temp"
+        style="@style/Text.H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/chance_rain"
+        app:layout_constraintStart_toEndOf="@id/time"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="72" />
+
+    <TextView
+        android:id="@+id/chance_rain"
+        style="@style/Text.H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/wind"
+        app:layout_constraintStart_toEndOf="@id/temp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10%" />
+
+    <TextView
+        android:id="@+id/wind"
+        style="@style/Text.H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/humidity"
+        app:layout_constraintStart_toEndOf="@id/chance_rain"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2.2" />
+
+    <TextView
+        android:id="@+id/humidity"
+        style="@style/Text.H2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/wind"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="60%" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
