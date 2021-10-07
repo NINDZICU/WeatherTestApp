@@ -17,12 +17,12 @@ import java.time.DayOfWeek
 import java.util.*
 
 
-class WeatherDetailsFragment : BaseFragment<WeatherDetailsViewModel>() {
+class WeatherDetailsFragment : BaseFragment<FragmentWeatherBinding, WeatherDetailsViewModel>() {
 
     override val viewModel: WeatherDetailsViewModel by inject<WeatherDetailsViewModelImpl>()
 
-    private var _binding: FragmentWeatherBinding? = null
-    private val binding get() = _binding!!
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWeatherBinding =
+        FragmentWeatherBinding::inflate
 
     private val selectDayListener = object : DaysWeatherAdapter.DaysListener {
         override fun onSelectDay(day: DayOfWeek) {
@@ -32,15 +32,6 @@ class WeatherDetailsFragment : BaseFragment<WeatherDetailsViewModel>() {
 
     private val daysAdapter = DaysWeatherAdapter(selectDayListener)
     private val hoursAdapter = HoursWeatherAdapter()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentWeatherBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,22 +55,17 @@ class WeatherDetailsFragment : BaseFragment<WeatherDetailsViewModel>() {
             }
 
             viewModel.dailyWeather().observe {
-                daysAdapter.setDailyWeather(it)
+                daysAdapter.submitList(it.map { weather -> weather.copy() })
             }
 
             viewModel.hourlyWeather().observe {
-                hoursAdapter.setHourlyWeather(it)
+                hoursAdapter.submitList(it)
             }
 
             appbar.toolbar.setNavigationOnClickListener {
                 getNavController().navigate(R.id.action_weatherFragment_to_searchFragment)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 

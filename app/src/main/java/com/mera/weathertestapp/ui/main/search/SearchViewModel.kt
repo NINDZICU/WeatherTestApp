@@ -2,6 +2,7 @@ package com.mera.weathertestapp.ui.main.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.mera.weathertestapp.domain.entity.CityEntity
 import com.mera.weathertestapp.domain.interactor.CityInteractor
@@ -37,7 +38,7 @@ class SearchViewModelImpl(
 
     override fun onSearch(search: String) {
         if(search.isNotBlank()) {
-            launch {
+            viewModelScope.launch {
                 try {
                     resultsLiveData.value = emptyList()
                     isProgressLiveData.value = true
@@ -63,7 +64,7 @@ class SearchViewModelImpl(
     }
 
     override fun onSelectResult(city: CityEntity) {
-        launch {
+        viewModelScope.launch {
             cityInteractor.saveCityId(city.id)
             navController.popBackStack()
         }

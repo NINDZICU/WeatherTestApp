@@ -12,13 +12,13 @@ import com.mera.weathertestapp.ui.base.BaseFragment
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class SearchFragment: BaseFragment<SearchViewModel>() {
+class SearchFragment: BaseFragment<SearchFragmentBinding, SearchViewModel>() {
     override val viewModel: SearchViewModel by inject<SearchViewModelImpl> {
         parametersOf(getNavController())
     }
 
-    private var _binding: SearchFragmentBinding? = null
-    private val binding get() = _binding!!
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> SearchFragmentBinding =
+        SearchFragmentBinding::inflate
 
     private val selectResultListener = object : SearchResultsAdapter.SearchResultsListener {
         override fun onSelectResult(city: CityEntity) {
@@ -28,14 +28,6 @@ class SearchFragment: BaseFragment<SearchViewModel>() {
 
     private val resultsAdapter = SearchResultsAdapter(selectResultListener)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = SearchFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,7 +49,7 @@ class SearchFragment: BaseFragment<SearchViewModel>() {
             }
 
             viewModel.results().observe {
-                resultsAdapter.setCities(it)
+                resultsAdapter.submitList(it)
             }
 
             viewModel.isProgress().observe {
@@ -75,10 +67,5 @@ class SearchFragment: BaseFragment<SearchViewModel>() {
                 else emptyData.visibility = View.GONE
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

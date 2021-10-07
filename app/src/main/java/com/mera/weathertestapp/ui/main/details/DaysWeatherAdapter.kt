@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mera.weathertestapp.R
 import com.mera.weathertestapp.databinding.ItemDailyWeatherBinding
@@ -12,19 +13,12 @@ import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.*
 
-class DaysWeatherAdapter(private val daysListener: DaysListener) : RecyclerView.Adapter<DaysWeatherAdapter.DaysWeatherViewHolder>() {
+class DaysWeatherAdapter(
+    private val daysListener: DaysListener
+    ) : ListAdapter<DailyWeatherModel, DaysWeatherAdapter.DaysWeatherViewHolder>(DailyWeatherDiffUtil()) {
 
     interface DaysListener {
         fun onSelectDay(day: DayOfWeek)
-    }
-
-    private var data = mutableListOf<DailyWeatherModel>()
-
-    fun setDailyWeather(weather: List<DailyWeatherModel>) {
-        val result = DiffUtil.calculateDiff(DailyWeatherDiffUtil(data, weather))
-        data.clear()
-        data.addAll(weather.map { it.copy() })
-        result.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DaysWeatherViewHolder {
@@ -33,10 +27,8 @@ class DaysWeatherAdapter(private val daysListener: DaysListener) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: DaysWeatherViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = data.size
 
     inner class DaysWeatherViewHolder(private val binding: ItemDailyWeatherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(model: DailyWeatherModel) = binding.apply {
@@ -59,24 +51,14 @@ class DaysWeatherAdapter(private val daysListener: DaysListener) : RecyclerView.
         }
     }
 
-    private class DailyWeatherDiffUtil(
-        private val old: List<DailyWeatherModel>,
-        private val new: List<DailyWeatherModel>
-    ) : DiffUtil.Callback() {
+    private class DailyWeatherDiffUtil: DiffUtil.ItemCallback<DailyWeatherModel>() {
 
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldItem = old[oldItemPosition]
-            val newItem = new[newItemPosition]
+        override fun areItemsTheSame(oldItem: DailyWeatherModel, newItem: DailyWeatherModel): Boolean =
+            oldItem.dayOfTheWeek == newItem.dayOfTheWeek && oldItem.iconType == newItem.iconType &&
+                oldItem.temp == newItem.temp && oldItem.isSelected == newItem.isSelected
 
-            return oldItem.dayOfTheWeek == newItem.dayOfTheWeek && oldItem.iconType == newItem.iconType &&
-                    oldItem.temp == newItem.temp && oldItem.isSelected == newItem.isSelected
-        }
-
-        override fun getOldListSize(): Int = old.size
-
-        override fun getNewListSize(): Int = new.size
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = true
+        override fun areContentsTheSame(oldItem: DailyWeatherModel, newItem: DailyWeatherModel): Boolean =
+            oldItem == newItem
 
     }
 
